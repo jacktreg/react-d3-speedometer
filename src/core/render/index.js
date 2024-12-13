@@ -105,6 +105,8 @@ function _renderArcs({ config, svg, centerTx }) {
       return config.arcColorFn(d * i)
     })
     .attr('d', arc)
+    .style('stroke', config.segmentSeparatorColor)
+    .style('stroke-width', 2)
 }
 
 export function _renderLabels({ config, svg, centerTx, r }) {
@@ -112,6 +114,38 @@ export function _renderLabels({ config, svg, centerTx, r }) {
   const tickData = configureTickData(config)
   const scale = configureScale(config)
   const range = config.maxAngle - config.minAngle
+
+  // Add optimal value label and tick mark if configured
+  if (config.showOptimalValue && config.optimalValue != null) {
+    const optimalRatio = scale(config.optimalValue)
+    const optimalAngle = config.minAngle + optimalRatio * range
+    
+    const optimalLabel = svg.append('g')
+      .attr('class', 'label optimal-label')
+      .attr('transform', centerTx)
+
+    // Add optimal value tick mark
+    optimalLabel
+      .append('line')
+      .attr('transform', `rotate(${optimalAngle})`)
+      .attr('x1', 0)
+      .attr('y1', config.labelInset - r - 2)
+      .attr('x2', 0)
+      .attr('y2', config.labelInset - r + 12)
+      .style('stroke', config.optimalValueColor)
+      .style('stroke-width', 2)
+
+    // Add optimal value label
+    optimalLabel
+      .append('text')
+      .attr('transform', `rotate(${optimalAngle}) translate(0, ${config.labelInset - r - config.labelTickPadding})`)
+      .text(config.segmentValueFormatter(config.labelFormat(config.optimalValue)))
+      .attr('class', 'segment-value optimal-value')
+      .style('text-anchor', 'middle')
+      .style('font-size', config.labelFontSize)
+      .style('font-weight', 'bold')
+      .style('fill', config.optimalValueColor)
+  }
 
   // assuming we have the custom segment labels here
   const { customSegmentLabels } = config
@@ -147,6 +181,29 @@ export function _renderLabels({ config, svg, centerTx, r }) {
   // normal label rendering
   let lg = svg.append('g').attr('class', 'label').attr('transform', centerTx)
 
+  // Add tick marks
+  lg.selectAll('line')
+    .data(ticks)
+    .enter()
+    .append('line')
+    .attr('transform', (d, i) => {
+      const ratio =
+        config.customSegmentStops.length === 0
+          ? scale(d)
+          : sumArrayTill(tickData, i)
+
+      const newAngle = config.minAngle + ratio * range
+
+      return `rotate(${newAngle})`
+    })
+    .attr('x1', 0)
+    .attr('y1', config.labelInset - r - 2)
+    .attr('x2', 0)
+    .attr('y2', config.labelInset - r + 12)
+    .style('stroke', config.textColor)
+    .style('stroke-width', 2)
+
+  // Existing label text rendering
   lg.selectAll('text')
     .data(ticks)
     .enter()
@@ -159,22 +216,25 @@ export function _renderLabels({ config, svg, centerTx, r }) {
 
       const newAngle = config.minAngle + ratio * range
 
-      return `rotate(${newAngle}) translate(0, ${config.labelInset - r})`
+      return `rotate(${newAngle}) translate(0, ${config.labelInset - r - config.labelTickPadding})`
     })
-    // first labelFormat is applied via d3Format
-    // then we will apply custom 'segmentValueFormatter' function
-    // .text(config.labelFormat)
     .text(value => {
+      // Return empty string if this value matches the optimal value
+      if (config.showOptimalValue && config.optimalValue === value) {
+        return ''
+      }
       return config.segmentValueFormatter(config.labelFormat(value))
     })
-    // add class for text label
     .attr('class', 'segment-value')
-    // styling stuffs
     .style('text-anchor', 'middle')
     .style('font-size', config.labelFontSize)
     .style('font-weight', 'bold')
-    // .style("fill", "#666");
-    .style('fill', config.textColor)
+    .style('fill', (d, i) => {
+      if (config.segmentLabelColors && config.segmentLabelColors[i]) {
+        return config.segmentLabelColors[i]
+      }
+      return config.arcColorFn(scale(d))
+    })
 }
 
 // helper function to render 'custom segment labels'

@@ -91,6 +91,41 @@ declare module 'react-d3-speedometer' {
 
     // Accessibility releated props
     svgAriaLabel?: string
+
+    /**
+     * Whether to show the optimal value label
+     * @default false
+     */
+    showOptimalValue?: boolean;
+
+    /**
+     * The optimal value to be displayed on the gauge
+     */
+    optimalValue?: number;
+
+    /**
+     * Custom colors for segment labels. If provided, should match the number of segments
+     * @default []
+     */
+    segmentLabelColors?: string[];
+
+    /**
+     * Color for the optimal value label
+     * @default '#00ff00'
+     */
+    optimalValueColor?: string;
+
+    /**
+     * Padding between labels and tick marks (in pixels)
+     * @default 12
+     */
+    labelTickPadding?: number;
+
+    /**
+     * Color of the stroke between segments
+     * @default '#fff'
+     */
+    segmentSeparatorColor?: string;
   }
 
   const ReactSpeedometer: React.FunctionComponent<Props>
