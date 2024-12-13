@@ -39,6 +39,11 @@ export const DEFAULT_PROPS = {
   // show custom segment labels only on hover
   showSegmentLabelsOnlyOnHover: false,
 
+  // show optimal value
+  showOptimalValue: false,
+  optimalValue: null,
+  optimalValueColor: '#00ff00',
+
   // color strings
   needleColor: 'steelblue',
   startColor: '#FF471A',
@@ -78,6 +83,15 @@ export const DEFAULT_PROPS = {
 
   // Accessibility related props
   svgAriaLabel: 'React d3 speedometer', // aria-label of speedometer
+
+  // custom segment label colors; by default empty array
+  segmentLabelColors: [],
+
+  // Padding between labels and tick marks (in pixels)
+  labelTickPadding: 12,
+
+  // Color of the stroke between segments
+  segmentSeparatorColor: '#fff',
 }
 
 // default config
@@ -155,6 +169,11 @@ export const getConfig = ({ PROPS, parentWidth, parentHeight }) => {
     // placeholder style for 'currentValue'
     currentValuePlaceholderStyle: PROPS.currentValuePlaceholderStyle,
 
+    // show optimal value
+    showOptimalValue: PROPS.showOptimalValue,
+    optimalValue: PROPS.optimalValue,
+    optimalValueColor: PROPS.optimalValueColor,
+
     // font sizes (and other styles)
     labelFontSize: PROPS.labelFontSize,
     valueTextFontSize: PROPS.valueTextFontSize,
@@ -162,6 +181,15 @@ export const getConfig = ({ PROPS, parentWidth, parentHeight }) => {
 
     // Accessibility related props
     svgAriaLabel: PROPS.svgAriaLabel, // aria-label of speedometer
+
+    // segment label colors
+    segmentLabelColors: PROPS.segmentLabelColors,
+
+    // Add labelTickPadding to the config
+    labelTickPadding: PROPS.labelTickPadding,
+
+    // Color of the stroke between segments
+    segmentSeparatorColor: PROPS.segmentSeparatorColor,
   }
 
   return Object.assign({}, DEFAULT_CONFIG, config)
