@@ -130,6 +130,12 @@ declare module 'react-d3-speedometer' {
      * @default '#fff'
      */
     segmentSeparatorColor?: string;
+
+    /**
+     * Color of the current value text
+     * @default '#666'
+     */
+    valueTextColor?: string;
   }
 
   const ReactSpeedometer: React.FunctionComponent<Props>

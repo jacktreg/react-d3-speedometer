@@ -92,6 +92,9 @@ export const DEFAULT_PROPS = {
 
   // Color of the stroke between segments
   segmentSeparatorColor: '#fff',
+
+  // Color of the current value text
+  valueTextColor: '#666',
 }
 
 // default config
@@ -190,6 +193,9 @@ export const getConfig = ({ PROPS, parentWidth, parentHeight }) => {
 
     // Color of the stroke between segments
     segmentSeparatorColor: PROPS.segmentSeparatorColor,
+
+    // Color of the current value text
+    valueTextColor: PROPS.valueTextColor,
   }
 
   return Object.assign({}, DEFAULT_CONFIG, config)

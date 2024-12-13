@@ -131,7 +131,7 @@ export function _renderLabels({ config, svg, centerTx, r }) {
       .attr('x1', 0)
       .attr('y1', config.labelInset - r - 2)
       .attr('x2', 0)
-      .attr('y2', config.labelInset - r + 12)
+      .attr('y2', config.labelInset - r + 8)
       .style('stroke', config.optimalValueColor)
       .style('stroke-width', 2)
 
@@ -200,7 +200,7 @@ export function _renderLabels({ config, svg, centerTx, r }) {
     .attr('x1', 0)
     .attr('y1', config.labelInset - r - 2)
     .attr('x2', 0)
-    .attr('y2', config.labelInset - r + 12)
+    .attr('y2', config.labelInset - r + 8)
     .style('stroke', config.textColor)
     .style('stroke-width', 2)
 
@@ -334,7 +334,6 @@ function _renderCustomSegmentLabels({
 
 function _renderCurrentValueText({ config, svg }) {
   const translateX = (config.width + 2 * config.paddingHorizontal) / 2
-  // move the current value text down depending on padding vertical
   const translateY = (config.width + 4 * config.paddingVertical) / 2
 
   return (
@@ -342,16 +341,13 @@ function _renderCurrentValueText({ config, svg }) {
       .append('g')
       .attr('transform', `translate(${translateX}, ${translateY})`)
       .append('text')
-      // add class for the text
       .attr('class', 'current-value')
       .attr('text-anchor', 'middle')
-      // position the text 23pt below
       .attr('y', 23)
-      // add text
       .text(config.currentValue)
       .style('font-size', config.valueTextFontSize)
       .style('font-weight', config.valueTextFontWeight)
-      .style('fill', config.textColor)
+      .style('fill', config.valueTextColor)
   )
 }
 
