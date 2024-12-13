@@ -91,6 +91,12 @@ declare module 'react-d3-speedometer' {
 
     // Accessibility releated props
     svgAriaLabel?: string
+
+    /**
+     * Color of the current value text
+     * @default '#666'
+     */
+    valueTextColor?: string;
   }
 
   const ReactSpeedometer: React.FunctionComponent<Props>

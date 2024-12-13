@@ -72,6 +72,9 @@ export const DEFAULT_PROPS = {
 
   // Accessibility related props
   svgAriaLabel: 'React d3 speedometer', // aria-label of speedometer
+
+  // Color of the current value text
+  valueTextColor: '#666',
 }
 
 // default config
@@ -150,6 +153,9 @@ export const getConfig = ({ PROPS, parentWidth, parentHeight }) => {
 
     // Accessibility related props
     svgAriaLabel: PROPS.svgAriaLabel, // aria-label of speedometer
+
+    // Color of the current value text
+    valueTextColor: PROPS.valueTextColor,
   }
 
   return Object.assign({}, DEFAULT_CONFIG, config)
